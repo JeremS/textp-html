@@ -1,4 +1,4 @@
-(ns textp.html.alpha.compiler
+(ns fr.jeremyschoffen.textp.html.alpha.compiler
   (:refer-clojure :exclude [compile])
   (:require [textp.compile.alpha.core :refer [emit!] :as compile]
             [textp.compile.alpha.text :as compile-text]))

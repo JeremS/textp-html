@@ -1,4 +1,4 @@
-{:paths ["src"]
+{:paths ["src/main"]
  :deps {textp-lib {:local/root "../lib"}
         textp-compiler {:local/root "../compile"}}
 

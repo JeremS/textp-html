@@ -1,8 +1,8 @@
-(ns textp.html.alpha.tags
+(ns fr.jeremyschoffen.textp.html.alpha.tags
   (:require
     [net.cgrand.macrovich :as macro]
-    [textp.lib.alpha.core :as lib])
-  #?(:cljs (:require-macros [textp.html.alpha.tags])))
+    [fr.jeremyschoffen.textp.lib.alpha.core :as lib])
+  #?(:cljs (:require-macros [fr.jeremyschoffen.textp.html.alpha.tags])))
 
 
 ;; list of tags inspired by
@@ -61,7 +61,7 @@
     `(do ~@(for [t tags]
              `(lib/def-xml-tag ~t)))))
 
-(textp.html.alpha.tags/define-tags)
+(fr.jeremyschoffen.textp.html.alpha.tags/define-tags)
 
 ;; tag renames to avoid override of clojure functions:
 ;; - var -> html-var
