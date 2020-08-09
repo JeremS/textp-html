@@ -1,8 +1,8 @@
-(ns fr.jeremyschoffen.textp.html.alpha.compiler-test
+(ns fr.jeremyschoffen.textp.alpha.html.compiler-test
   (:require
     [clojure.test :refer [deftest is]]
-    [fr.jeremyschoffen.textp.html.alpha.tags :as tags]
-    [fr.jeremyschoffen.textp.html.alpha.compiler :as compiler]))
+    [fr.jeremyschoffen.textp.alpha.html.tags :as tags]
+    [fr.jeremyschoffen.textp.alpha.html.compiler :as compiler]))
 
 
 (def example [(tags/div

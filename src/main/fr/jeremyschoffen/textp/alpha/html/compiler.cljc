@@ -1,7 +1,7 @@
-(ns fr.jeremyschoffen.textp.html.alpha.compiler
+(ns fr.jeremyschoffen.textp.alpha.html.compiler
   (:refer-clojure :exclude [compile])
-  (:require [textp.compile.alpha.core :refer [emit!] :as compile]
-            [textp.compile.alpha.text :as compile-text]))
+  (:require [fr.jeremyschoffen.textp.alpha.compile.core :refer [emit!] :as compile]
+            [fr.jeremyschoffen.textp.alpha.compile.text :as compile-text]))
 
 ;; Generaly inspired by https://github.com/cgrand/enlive/blob/master/src/net/cgrand/enlive_html.clj
 

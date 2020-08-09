@@ -1,7 +1,7 @@
-(ns fr.jeremyschoffen.textp.html.alpha.tags-test
+(ns fr.jeremyschoffen.textp.alpha.html.tags-test
   (:require
     [clojure.test :refer [deftest is are]]
-    [fr.jeremyschoffen.textp.html.alpha.tags :as tags]))
+    [fr.jeremyschoffen.textp.alpha.html.tags :as tags]))
 
 (deftest basic
   (are [x y] (= x y)
