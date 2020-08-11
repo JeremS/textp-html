@@ -1,7 +1,6 @@
 (ns fr.jeremyschoffen.textp.alpha.html.compiler
   (:refer-clojure :exclude [compile])
-  (:require [fr.jeremyschoffen.textp.alpha.compile.core :refer [emit!] :as compile]
-            [fr.jeremyschoffen.textp.alpha.compile.text :as compile-text]))
+  (:require [fr.jeremyschoffen.textp.alpha.lib.compilation :refer [emit!] :as compile]))
 
 ;; Generaly inspired by https://github.com/cgrand/enlive/blob/master/src/net/cgrand/enlive_html.clj
 
@@ -132,7 +131,7 @@
 
 
 (defn doc->html [x]
-  (compile-text/text-environment
+  (compile/text-environment
     (if (sequential? x)
       (compile-seq! x)
       (compile! x))))

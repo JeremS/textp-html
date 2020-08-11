@@ -1,6 +1,7 @@
 (ns fr.jeremyschoffen.textp.alpha.html.tags-test
   (:require
-    [clojure.test :refer [deftest is are]]
+    #?(:clj [clojure.test :refer [deftest is are]]
+       :cljs [cljs.test :refer-macros [deftest is are]])
     [fr.jeremyschoffen.textp.alpha.html.tags :as tags]))
 
 (deftest basic

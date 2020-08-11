@@ -1,6 +1,7 @@
 (ns fr.jeremyschoffen.textp.alpha.html.compiler-test
   (:require
-    [clojure.test :refer [deftest is]]
+    #?(:clj [clojure.test :refer [deftest is]]
+       :cljs [cljs.test :refer-macros [deftest is]])
     [fr.jeremyschoffen.textp.alpha.html.tags :as tags]
     [fr.jeremyschoffen.textp.alpha.html.compiler :as compiler]))
 
@@ -22,3 +23,4 @@
 (deftest simple
   (is (= (compiler/doc->html example)
          "<div class=\"blue\">Some text <a href=\"www.home.com\">home</a></div><br /><div class=\"blue\">Some text <a href=\"www.home.com\">home</a></div>")))
+

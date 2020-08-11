@@ -1,7 +1,7 @@
 (ns fr.jeremyschoffen.textp.alpha.html.tags
   (:require
     [net.cgrand.macrovich :as macro]
-    [fr.jeremyschoffen.textp.alpha.lib.core :as lib])
+    [fr.jeremyschoffen.textp.alpha.lib.tag-utils :as lib])
   #?(:cljs (:require-macros [fr.jeremyschoffen.textp.alpha.html.tags])))
 
 
