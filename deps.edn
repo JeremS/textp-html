@@ -11,4 +11,11 @@
 
            :test {:extra-paths ["test"]
                   :extra-deps {lambdaisland/kaocha {:mvn/version "0.0-541"}
-                               lambdaisland/kaocha-cljs {:mvn/version "0.0-51"}}}}}
+                               lambdaisland/kaocha-cljs {:mvn/version "0.0-51"}}}
+
+           :build {:extra-paths ["scripts" "src/doc"]
+                   :extra-deps {fr.jeremyschoffen/mbt-alpha    {:mvn/version "0"}
+
+                                fr.jeremyschoffen/textp-doc    {:local/root "../doc"}
+                                fr.jeremyschoffen/textp-eval   {:local/root "../eval"}
+                                fr.jeremyschoffen/textp-reader {:local/root "../reader"}}}}}

@@ -1,6 +1,8 @@
 (ns fr.jeremyschoffen.textp.alpha.html.compiler
   (:refer-clojure :exclude [compile])
-  (:require [fr.jeremyschoffen.textp.alpha.lib.compilation :refer [emit!] :as compile]))
+  (:require
+    [fr.jeremyschoffen.textp.alpha.lib.compilation :refer [emit!] :as compile]
+    [fr.jeremyschoffen.textp.alpha.html.tags :as tags]))
 
 ;; Generaly inspired by https://github.com/cgrand/enlive/blob/master/src/net/cgrand/enlive_html.clj
 
@@ -97,11 +99,19 @@
     (emit-content&close-tag! tag content)))
 
 
+(defn emit-unescaped! [{c :content}]
+  (emit! (first c)))
+
+
 (defmulti emit-tag! :tag)
 
 
 (defmethod emit-tag! :default [t]
   (emit-tag*! t))
+
+
+(defmethod emit-tag! ::tags/un-escaped [node]
+  (emit-unescaped! node))
 
 
 (defmulti emit-special! :type)
@@ -142,7 +152,9 @@
     (doc->html [{:type :dtd
                  :data ["html" nil nil]}
                 {:tag :img
-                 :attrs {:href "www.toto.com"}}]))
+                 :attrs {:href "www.toto.com"}}
+                {:tag ::tags/un-escaped
+                 :content ["&copy;"]}]))
   (println
     (doc->html [{:type :dtd
                  :data ["html" nil nil]}

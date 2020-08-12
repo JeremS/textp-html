@@ -1,7 +1,9 @@
 (ns fr.jeremyschoffen.textp.alpha.html.tags
   (:require
-    [net.cgrand.macrovich :as macro]
-    [fr.jeremyschoffen.textp.alpha.lib.tag-utils :as lib])
+    #?(:clj [clojure.spec.alpha :as s]
+       :cljs [cljs.spec.alpha :as s])
+    [net.cgrand.macrovich :as macro :include-macros true]
+    [fr.jeremyschoffen.textp.alpha.lib.tag-utils :as lib :include-macros true])
   #?(:cljs (:require-macros [fr.jeremyschoffen.textp.alpha.html.tags])))
 
 
@@ -76,3 +78,20 @@
 
 (defn html5-dtd [& args]
   {:type :dtd, :data ["html" nil nil]})
+
+
+
+(defn- simple-str-content? [{c :content}]
+  (and (-> c next nil?)
+       (-> c first string?)))
+
+
+(s/def ::un-escaped-args (s/and (s/cat :arg ::lib/tag-txt-arg)
+                                (fn [v]
+                                  (-> v :arg simple-str-content?))))
+
+(defn un-escaped [& args]
+  {:tag ::un-escaped
+   :content (-> (lib/conform-or-throw ::un-escaped-args args)
+                :arg
+                :content)})
