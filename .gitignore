@@ -4,4 +4,3 @@ node_modules
 target
 out
 .nrepl-port
-package-lock.json
