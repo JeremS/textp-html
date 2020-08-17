@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-clojure -A:dev:test:cljs:clj -m nrepl.cmdline
+
+clojure -A:clj:cljs:dev:test:piggie:nrepl -m nrepl.cmdline --middleware "[cider.piggieback/wrap-cljs-repl]"

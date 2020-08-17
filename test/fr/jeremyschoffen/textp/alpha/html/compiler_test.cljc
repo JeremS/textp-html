@@ -23,4 +23,3 @@
 (deftest simple
   (is (= (compiler/doc->html example)
          "<div class=\"blue\">Some text <a href=\"www.home.com\">home</a></div><br /><div class=\"blue\">Some text <a href=\"www.home.com\">home</a></div>")))
-

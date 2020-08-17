@@ -8,12 +8,15 @@
 
 
 (st/instrument
-  `[mbt-core/deps-make-coord])
+  `[mbt-core/deps-make-coord
+    mbt-defaults/build-jar!
+    mbt-defaults/install!])
 
 
 (def specific-conf (sorted-map
+                     :project/name "textp-html"
                      :project/author "Jeremy Schoffen"
-                     :maven/group-id 'fr.jeremyschoffen.textp
+                     :maven/group-id 'fr.jeremyschoffen
                      :versioning/major :alpha
                      :versioning/scheme mbt-defaults/git-distance-scheme
 
@@ -38,9 +41,6 @@
 
 
 (comment
-  (-> conf
-      (u/assoc-computed :project/version (comp str mbt-defaults/anticipated-next-version))
-      make-docs!)
   (new-milestone! conf)
 
   (mbt-core/clean! conf)

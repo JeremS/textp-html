@@ -15,5 +15,3 @@
                :content ["text" "text"]})
 
     {:tag :div, :attrs {:a 1}, :content ["text" "text"]}))
-
-
