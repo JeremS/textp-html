@@ -1,6 +1,7 @@
 (ns fr.jeremyschoffen.textp.alpha.html.compiler
   (:refer-clojure :exclude [compile])
   (:require
+    [net.cgrand.macrovich :as macro :include-macros true]
     [fr.jeremyschoffen.textp.alpha.lib.compilation :refer [emit!] :as compile]
     [fr.jeremyschoffen.textp.alpha.html.tags :as tags]))
 
@@ -40,17 +41,16 @@
        (str "<!DOCTYPE " name ">\n"))))
 ;;----------------------------------------------------------------------------------------------------------------------
 
+;;----------------------------------------------------------------------------------------------------------------------
+;; low level api
+;;----------------------------------------------------------------------------------------------------------------------
 (declare compile!)
+(declare compile-seq!)
 
 
 (def self-closing-tags
   "Html tag names of tags that are self closing."
   #{:area :base :basefont :br :hr :input :img :link :meta})
-
-
-(defn compile-seq! [ss]
-  (doseq [s ss]
-    (compile! s)))
 
 
 (defn- named? [x]
@@ -103,25 +103,36 @@
   (emit! (first c)))
 
 
-(defmulti emit-tag! :tag)
+;;----------------------------------------------------------------------------------------------------------------------
+;; Normal tags
+;;----------------------------------------------------------------------------------------------------------------------
+(def ^:dynamic *implementation* ::html)
+
+
+(defmulti emit-tag! (fn [node]
+                      [*implementation* (:tag node)]))
 
 
 (defmethod emit-tag! :default [t]
   (emit-tag*! t))
 
 
-(defmethod emit-tag! ::tags/un-escaped [node]
+(defmethod emit-tag! [::html ::tags/un-escaped] [node]
   (emit-unescaped! node))
 
 
-(defmulti emit-special! :type)
+;;----------------------------------------------------------------------------------------------------------------------
+;; Special tags
+;;----------------------------------------------------------------------------------------------------------------------
+(defmulti emit-special! (fn [node]
+                          [*implementation* (:type node)]))
 
 
-(defmethod emit-special! :dtd [x]
+(defmethod emit-special! [::html :dtd] [x]
   (emit-dtd! x))
 
 
-(defmethod emit-special! :comment [x]
+(defmethod emit-special! [::html :comment] [x]
   (emit-comment! x))
 
 
@@ -133,31 +144,50 @@
 (def tag? map?)
 
 
+(defn compile-seq! [ss]
+  (doseq [s ss]
+    (compile! s)))
+
+;;----------------------------------------------------------------------------------------------------------------------
+;; High level
+;;----------------------------------------------------------------------------------------------------------------------
 (defn compile! [node]
+  "Compile a document to a html string. Needs the dynamic variable
+    [[fr.jeremyschoffen.textp.alpha.lib.compilation/*compilation-out*]] to be bound."
   (cond
     (special? node) (emit-special! node)
     (tag? node) (emit-tag! node)
+    (sequential? node) (compile-seq! node)
     :else (emit! (xml-str node))))
 
 
-(defn doc->html [x]
+(defn doc->str
+  "Compile a document to s string."
+  [x]
   (compile/text-environment
-    (if (sequential? x)
-      (compile-seq! x)
-      (compile! x))))
+    (compile! x)))
+
+
+(macro/deftime
+  (defmacro with-implementation
+    "Binds the dynamic var [[fr.jeremyschoffen.textp.alpha.html.compiler/*implementation*]]
+    to `i`."
+    [i & body]
+    `(binding [*implementation* ~i]
+       ~@body)))
 
 
 (comment
   (println
-    (doc->html [{:type :dtd
-                 :data ["html" nil nil]}
-                {:tag :img
-                 :attrs {:href "www.toto.com"}}
-                {:tag ::tags/un-escaped
-                 :content ["&copy;"]}]))
+    (doc->str [{:type  :dtd
+                :data ["html" nil nil]}
+               {:tag :img
+                :attrs {:href "www.toto.com"}}
+               {:tag ::tags/un-escaped
+                :content ["&copy;"]}]))
   (println
-    (doc->html [{:type :dtd
-                 :data ["html" nil nil]}
-                {:tag :img
-                 :attrs {:href "www.toto.com"}
-                 :content ["toto""titi"]}])))
+    (doc->str [{:type  :dtd
+                :data ["html" nil nil]}
+               {:tag :img
+                :attrs {:href "www.toto.com"}
+                :content ["toto""titi"]}])))
