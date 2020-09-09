@@ -1,5 +1,5 @@
 {:paths ["src/main"]
- :deps {fr.jeremyschoffen/textp-lib-alpha {:mvn/version "0"}}
+ :deps {fr.jeremyschoffen/textp-lib-alpha {:mvn/version "1"}}
 
 
  :aliases {:clj {:extra-deps {org.clojure/clojure {:mvn/version "1.10.1"}}}
@@ -16,6 +16,6 @@
                   :extra-deps {lambdaisland/kaocha {:mvn/version "0.0-541"}
                                lambdaisland/kaocha-cljs {:mvn/version "0.0-51"}}}
 
-           :build {:paths ["scripts" "src/doc"]
-                   :deps {fr.jeremyschoffen/mbt-alpha-unstable {:mvn/version "8"}
-                          fr.jeremyschoffen/textp-doc-alpha {:local/root "../doc"}}}}}
+           :build {:extra-paths ["build" "src/build"]
+                   :extra-deps {fr.jeremyschoffen/mbt-alpha {:mvn/version "9"}
+                                fr.jeremyschoffen/textp-doc-alpha {:local/root "../textp-doc"}}}}}
